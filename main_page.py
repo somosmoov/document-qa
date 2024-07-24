@@ -1,8 +1,7 @@
-# import streamlit as st
-
-# st.markdown("# Moov - Analisador de Editais 🎈")
-# st.sidebar.markdown("# Início 🎈")
 import streamlit as st
+
+st.markdown("# Moov - Analisador de Editais 🎈")
+st.sidebar.markdown("# Início 🎈")
 
 st.title("📝 Análise do Edital")
 uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))
