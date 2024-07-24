@@ -1,4 +1,4 @@
 import streamlit as st
 
-st.markdown("# Início 🎈")
+st.markdown("# Moov - Analisador de Editais 🎈")
 st.sidebar.markdown("# Início 🎈")
