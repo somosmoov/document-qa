@@ -1,7 +1,7 @@
-#import streamlit as st
+# import streamlit as st
 
-#st.markdown("# Moov - Analisador de Editais 🎈")
-#st.sidebar.markdown("# Início 🎈")
+# st.markdown("# Moov - Analisador de Editais 🎈")
+# st.sidebar.markdown("# Início 🎈")
 import streamlit as st
 import anthropic
 
