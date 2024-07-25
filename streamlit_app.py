@@ -30,7 +30,7 @@ history = st.Page("tools/history.py", title="History", icon=":material/history:"
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            "Account": [logout_page],
+            #"Account": [logout_page],
             "Reports": [dashboards, bugs, alerts],
             "Tools": [search, history],
         }
