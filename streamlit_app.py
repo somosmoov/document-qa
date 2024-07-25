@@ -13,8 +13,8 @@ def logout():
         st.session_state.logged_in = False
         st.rerun()
 
-#login_page = st.Page(login, title="Log in", icon=":material/login:")
-#logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
+login_page = st.Page(login, title="Log in", icon=":material/login:")
+logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 
 dashboard = st.Page(
     "reports/dashboards.py", title="Dashboard", icon=":material/dashboard:", default=True
@@ -30,12 +30,12 @@ history = st.Page("tools/history.py", title="History", icon=":material/history:"
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            #"Account": [logout_page],
+            "Account": [logout_page],
             "Reports": [dashboards, bugs, alerts],
             "Tools": [search, history],
         }
     )
-#else:
-    #pg = st.navigation([login_page])
+else:
+   pg = st.navigation([login_page])
 
 pg.run()
