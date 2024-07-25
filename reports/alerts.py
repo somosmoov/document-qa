@@ -1,1 +1,1 @@
-print("Alertas")
+st.write("Alertas")
