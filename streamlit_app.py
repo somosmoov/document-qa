@@ -17,7 +17,7 @@ login_page = st.Page(login, title="Log in", icon=":material/login:")
 logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 
 dashboard = st.Page(
-    "reports/dashboard.py", title="Dashboard", icon=":material/dashboard:", default=True
+    "reports/dashboards.py", title="Dashboard", icon=":material/dashboard:", default=True
 )
 bugs = st.Page("reports/bugs.py", title="Bug reports", icon=":material/bug_report:")
 alerts = st.Page(
@@ -31,7 +31,7 @@ if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Account": [logout_page],
-            "Reports": [dashboard, bugs, alerts],
+            "Reports": [dashboards, bugs, alerts],
             "Tools": [search, history],
         }
     )
