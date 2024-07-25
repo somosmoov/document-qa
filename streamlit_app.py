@@ -31,7 +31,7 @@ if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Account": [logout_page],
-            "Reports": [dashboards, bugs, alerts],
+            "Reports": [dashboard, bugs, alerts],
             "Tools": [search, history],
         }
     )
