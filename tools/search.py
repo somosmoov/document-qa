@@ -1,1 +1,2 @@
-print("Pesquisas")
+import streamlit as st
+st.write("Pesquisas")
