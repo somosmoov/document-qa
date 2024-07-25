@@ -30,7 +30,7 @@ login_page = st.Page(login, title="Log in", icon=":material/login:")
 logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 
 dashboard = st.Page(
-    #"reports/dashboards.py", title="Carrega Edital", icon=":material/dashboard:", default=True
+    #"reports/dashboards.py", title="Carrega Edital", icon=":material/dashboard:", default=True,
     carrega, title="Carrega Edital", icon=":material/dashboard:", default=True
 )
 bugs = st.Page("reports/bugs.py", title="Log de erros", icon=":material/bug_report:")
