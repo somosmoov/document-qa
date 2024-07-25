@@ -35,8 +35,7 @@ alerts = st.Page(
     "reports/alerts.py", title="Alertas", icon=":material/notification_important:"
 )
 
-upload = st.Page("tools/upload.py", title="Carrega Edital", icon=":material/upload:", default=True,
-    carrega)
+upload = st.Page("tools/upload.py", title="Carrega Edital", icon=":material/upload:", default=True)
 search = st.Page("tools/search.py", title="Pesquisas", icon=":material/search:")
 history = st.Page("tools/history.py", title="Historico", icon=":material/history:")
 
