@@ -32,9 +32,9 @@ dashboard = st.Page(
     #"reports/dashboards.py", title="Carrega Edital", icon=":material/dashboard:", default=True
     carrega, title="Carrega Edital", icon=":material/dashboard:", default=True
 )
-bugs = st.Page("reports/bugs.py", title="Bug reports", icon=":material/bug_report:")
+bugs = st.Page("reports/bugs.py", title="Log de erros", icon=":material/bug_report:")
 alerts = st.Page(
-    "reports/alerts.py", title="System alerts", icon=":material/notification_important:"
+    "reports/alerts.py", title="Alertas", icon=":material/notification_important:"
 )
 
 search = st.Page("tools/search.py", title="Pesquisas", icon=":material/search:")
