@@ -35,7 +35,7 @@ if st.session_state.logged_in:
             "Tools": [search, history],
         }
     )
-else:
+#else:
     #pg = st.navigation([login_page])
 
 pg.run()
