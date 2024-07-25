@@ -22,6 +22,7 @@ def carrega():
         placeholder="Pode fornecer um sumário?",
         disabled=not uploaded_file,
     )
+    st.write(question)
     return uploaded_file
 
 login_page = st.Page(login, title="Log in", icon=":material/login:")
