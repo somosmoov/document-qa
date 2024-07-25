@@ -14,7 +14,7 @@ def logout():
         st.session_state.logged_in = False
         st.rerun()
 
-st.session_state
+@st.cache_data
 def carrega():
     st.title("📝 Carregue o Edital")
     uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))#,accept_multiple_files=True)
