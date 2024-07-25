@@ -14,18 +14,6 @@ def logout():
         st.session_state.logged_in = False
         st.rerun()
 
-#@st.cache_data
-def carrega():
-    st.title("📝 Carregue o Edital")
-    uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))#,accept_multiple_files=True)
-    question = st.text_input(
-        "Faça um questionamento",
-        placeholder="Pode fornecer um sumário?",
-        disabled=not uploaded_file,
-    )
-    st.write(question)
-    return uploaded_file
-
 login_page = st.Page(login, title="Log in", icon=":material/login:")
 logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 
