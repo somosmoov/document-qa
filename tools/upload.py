@@ -11,16 +11,6 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 import docx
 
-st.title("📝 Carregue o Edital")
-uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))#,accept_multiple_files=True)
-question = st.text_input(
-        "Faça um questionamento",
-        placeholder="Pode fornecer um sumário?",
-        disabled=not uploaded_file,
-    )
-st.write(question)
-
-
 def getTextFromWord(filename):
     doc = docx.Document(filename)
     fullText = []
@@ -36,24 +26,33 @@ def getTextFromPPTX(filename):
             fullText.append(shape.text)
     return '\n'.join(fullText)
 
-def main_indexing(mypath):
-    model_name = "sentence-transformers/msmarco-bert-base-dot-v5"
-    model_kwargs = {'device': 'cpu'}
-    encode_kwargs = {'normalize_embeddings': True}
-    hf = HuggingFaceEmbeddings(
+st.title("📝 Carregue o Edital")
+uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))#,accept_multiple_files=True)
+question = st.text_input(
+        "Faça um questionamento",
+        placeholder="Pode fornecer um sumário?",
+        disabled=not uploaded_file,
+    )
+st.write(question)
+
+#def main_indexing(mypath):
+model_name = "sentence-transformers/msmarco-bert-base-dot-v5"
+model_kwargs = {'device': 'cpu'}
+encode_kwargs = {'normalize_embeddings': True}
+hf = HuggingFaceEmbeddings(
         model_name=model_name,
         model_kwargs=model_kwargs,
         encode_kwargs=encode_kwargs
-    )
-    client = QdrantClient(path="qdrant/")
-    collection_name = "MyCollection"
-    if client.collection_exists(collection_name):
+)
+client = QdrantClient(path="qdrant/")
+collection_name = "MyCollection"
+if client.collection_exists(collection_name):
         client.delete_collection(collection_name)
 
     client.create_collection(collection_name,vectors_config=VectorParams(size=768, distance=Distance.DOT))
     qdrant = Qdrant(client, collection_name, hf)
     print("Indexing...")
-    onlyfiles = mypath #get_files(mypath)
+    onlyfiles = uploaded_file #get_files(mypath)
     file_content = ""
     for file in onlyfiles:
         file_content = ""
@@ -82,8 +81,8 @@ def main_indexing(mypath):
             metadata.append({"path":file})
         qdrant.add_texts(texts,metadatas=metadata)
         len(texts)
-    print(onlyfiles)
-    print("Finished indexing!")
+print(onlyfiles)
+print("Finished indexing!")
 
 main_indexing(uploaded_file)
 
