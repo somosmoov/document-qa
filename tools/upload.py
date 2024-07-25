@@ -1,5 +1,5 @@
 import streamlit as st
-import PyPDF2
+import PyPDF2 as pd
 from os import listdir
 from os.path import isfile, join,isdir
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -59,7 +59,7 @@ def main_indexing(mypath):
         file_content = ""
         if file.endswith(".pdf"):
             print("indexing "+file)
-            reader = PyPDF2.PdfReader(file)
+            reader = pd.PdfReader(file)
             for i in range(0,len(reader.pages)):
                 file_content = file_content + " "+reader.pages[i].extract_text()
         elif file.endswith(".txt"):
