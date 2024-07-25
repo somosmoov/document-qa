@@ -43,9 +43,9 @@ history = st.Page("tools/history.py", title="Historico", icon=":material/history
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            "Account": [logout_page],
-            "Reports": [dashboard, bugs, alerts],
-            "Tools": [search, history],
+            "Acesso": [logout_page],
+            "Relatórios": [dashboard, bugs, alerts],
+            "Ferramentas": [search, history],
         }
     )
 else:
