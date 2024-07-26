@@ -49,42 +49,42 @@ collection_name = "MyCollection"
 if client.collection_exists(collection_name):
         client.delete_collection(collection_name)
 
-    client.create_collection(collection_name,vectors_config=VectorParams(size=768, distance=Distance.DOT))
-    qdrant = Qdrant(client, collection_name, hf)
-    print("Indexing...")
-    onlyfiles = uploaded_file #get_files(mypath)
+client.create_collection(collection_name,vectors_config=VectorParams(size=768, distance=Distance.DOT))
+qdrant = Qdrant(client, collection_name, hf)
+print("Indexing...")
+onlyfiles = uploaded_file #get_files(mypath)
+file_content = ""
+for file in onlyfiles:
     file_content = ""
-    for file in onlyfiles:
-        file_content = ""
-        if file.endswith(".pdf"):
-            print("indexing "+file)
-            reader = pd.PdfReader(file)
-            for i in range(0,len(reader.pages)):
-                file_content = file_content + " "+reader.pages[i].extract_text()
-        elif file.endswith(".txt"):
-            print("indexing " + file)
-            f = open(file,'r')
-            file_content = f.read()
-            f.close()
-        elif file.endswith(".docx"):
-            print("indexing " + file)
-            file_content = getTextFromWord(file)
-        elif file.endswith(".pptx"):
-            print("indexing " + file)
-            file_content = getTextFromPPTX(file)
-        else:
-            continue
-        text_splitter = TokenTextSplitter(chunk_size=500, chunk_overlap=50)
-        texts = text_splitter.split_text(file_content)
-        metadata = []
-        for i in range(0,len(texts)):
-            metadata.append({"path":file})
-        qdrant.add_texts(texts,metadatas=metadata)
-        len(texts)
+    if file.endswith(".pdf"):
+        print("indexing "+file)
+        reader = pd.PdfReader(file)
+        for i in range(0,len(reader.pages)):
+            file_content = file_content + " "+reader.pages[i].extract_text()
+    elif file.endswith(".txt"):
+        print("indexing " + file)
+        f = open(file,'r')
+        file_content = f.read()
+        f.close()
+    elif file.endswith(".docx"):
+        print("indexing " + file)
+        file_content = getTextFromWord(file)
+    elif file.endswith(".pptx"):
+        print("indexing " + file)
+        file_content = getTextFromPPTX(file)
+    else:
+        continue
+    text_splitter = TokenTextSplitter(chunk_size=500, chunk_overlap=50)
+    texts = text_splitter.split_text(file_content)
+    metadata = []
+    for i in range(0,len(texts)):
+        metadata.append({"path":file})
+    qdrant.add_texts(texts,metadatas=metadata)
+    len(texts)
 print(onlyfiles)
 print("Finished indexing!")
 
-main_indexing(uploaded_file)
+#main_indexing(uploaded_file)
 
 #if __name__ == "__main__":
 #    arguments = sys.argv
