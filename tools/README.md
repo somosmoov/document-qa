@@ -149,3 +149,18 @@ Considerações Finais:
 Segurança: Nunca exponha diretamente a chave da API em código-fonte público. Use variáveis de ambiente para armazenar chaves sensíveis.
 Tratamento de Erros: A função query_llama_api inclui tratamento de erros para lidar com possíveis falhas na comunicação com a API.
 Personalização: Ajuste a URL da API, os cabeçalhos e o payload conforme necessário para sua implementação específica.
+
+Explicação das Alterações:
+Função query_huggingface_api:
+
+Define a URL da API da Hugging Face (api_url) e os cabeçalhos necessários para a solicitação, incluindo a chave de autenticação (Authorization).
+Cria um payload JSON contendo o document_text e a question.
+Envia uma solicitação POST para a API da Hugging Face e retorna a resposta.
+Integração da API no Fluxo Principal:
+
+Após ler e processar o arquivo, o código chama a função query_huggingface_api passando o document_text e a question.
+A resposta da API é exibida no Streamlit usando st.write.
+Considerações Finais:
+Segurança: Nunca exponha diretamente a chave da API em código-fonte público. Use variáveis de ambiente para armazenar chaves sensíveis.
+Tratamento de Erros: A função query_huggingface_api inclui tratamento de erros para lidar com possíveis falhas na comunicação com a API.
+Personalização: Ajuste a URL da API, os cabeçalhos e o payload conforme necessário para sua implementação específica.
