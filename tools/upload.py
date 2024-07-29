@@ -6,6 +6,9 @@ import mammoth
 import requests
 import cohere
 
+# Inicialize o cliente Cohere
+cohere_client = cohere.Client("YOUR_COHERE_API_KEY")  # Substitua pela sua chave da API Cohere
+
 # Função para ler arquivos PDF
 def read_pdf(file):
     try:
