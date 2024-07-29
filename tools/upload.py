@@ -33,5 +33,25 @@ question = st.text_input(
         placeholder="Pode fornecer um sumário?",
         disabled=not uploaded_file,
     )
-st.write(question)
+
+ if uploaded_file and question:
+
+        # Process the uploaded file and question.
+        document = uploaded_file.read().decode()
+        messages = [
+            {
+                "role": "user",
+                "content": f"Here's a document: {document} \n\n---\n\n {question}",
+            }
+        ]
+
+        # Generate an answer using the OpenAI API.
+        stream = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            stream=True,
+        )
+
+        # Stream the response to the app using `st.write_stream`.
+        st.write_stream(stream)
 
