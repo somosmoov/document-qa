@@ -1,56 +1,58 @@
 import streamlit as st
-import PyPDF2 as pd
-from os import listdir
-from os.path import isfile, join,isdir
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_qdrant import Qdrant
-import sys
-from langchain_text_splitters import TokenTextSplitter
-from pptx import Presentation
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams
-import docx
+from docx import Document
+import fitz  # PyMuPDF
 
-def getTextFromWord(filename):
-    doc = docx.Document(filename)
-    fullText = []
-    for para in doc.paragraphs:
-        fullText.append(para.text)
-    return '\n'.join(fullText)
+# Função para ler arquivos PDF
+def read_pdf(file):
+    document = fitz.open(stream=file.read(), filetype="pdf")
+    text = ""
+    for page in document:
+        text += page.get_text()
+    return text
 
-def getTextFromPPTX(filename):
-    prs = Presentation(filename)
-    fullText = []
-    for slide in prs.slides:
-        for shape in slide.shapes:
-            fullText.append(shape.text)
-    return '\n'.join(fullText)
+# Função para ler arquivos DOCX
+def read_docx(file):
+    document = Document(file)
+    text = ""
+    for paragraph in document.paragraphs:
+        text += paragraph.text + "\n"
+    return text
 
+# Função para ler arquivos TXT e MD
+def read_txt_md(file):
+    return file.read().decode()
+
+# Streamlit UI
 st.title("📝 Carregue o Edital")
-uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf","docx","txt", "md"))#,accept_multiple_files=True)
+
+uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf", "docx", "txt", "md"))
+
 question = st.text_input(
-        "Faça um questionamento",
-        placeholder="Pode fornecer um sumário?",
-        disabled=not uploaded_file,
-    )
+    "Faça um questionamento",
+    placeholder="Pode fornecer um sumário?",
+    disabled=not uploaded_file,
+)
 
 if uploaded_file and question:
-    # Process the uploaded file and question.
-    document = uploaded_file.read().decode()
+    # Process the uploaded file based on its type
+    if uploaded_file.type == "application/pdf":
+        document_text = read_pdf(uploaded_file)
+    elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        document_text = read_docx(uploaded_file)
+    else:
+        document_text = read_txt_md(uploaded_file)
+
     messages = [
         {
             "role": "user",
-            "content": f"Here's a document: {document} \n\n---\n\n {question}",
+            "content": f"Here's a document: {document_text} \n\n---\n\n {question}",
         }
     ]
-'''
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-        )
+    
+    st.write(messages)  # Para fins de depuração, você pode exibir as mensagens no Streamlit
 
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
-'''
+# Certifique-se de instalar as dependências necessárias
+# pip install pymupdf python-docx
+
+
+
