@@ -60,24 +60,22 @@ def read_txt_md(file):
         st.error(f"Erro ao ler arquivo TXT/MD: {e}")
         return ""
 
-# Função para enviar o texto para a API do LLaMA
-def query_llama_api(document_text, question):
-    api_url = "https://api.llama.com/query"  # Substitua pelo URL real da API do LLaMA
+# Função para enviar o texto para a API da Hugging Face
+def query_huggingface_api(document_text, question):
+    api_url = "https://api-inference.huggingface.co/models/YOUR_MODEL"  # Substitua pelo seu modelo na Hugging Face
     headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer YOUR_API_KEY"  # Substitua pela sua chave da API
+        "Authorization": "Bearer YOUR_HUGGINGFACE_API_KEY"  # Substitua pela sua chave da API
     }
     payload = {
-        "document": document_text,
-        "question": question
+        "inputs": f"{document_text}\n\nQuestion: {question}"
     }
     try:
         response = requests.post(api_url, headers=headers, json=payload)
         response.raise_for_status()
-        return response.json().get("answer", "Nenhuma resposta encontrada.")
+        return response.json()[0].get("generated_text", "Nenhuma resposta encontrada.")
     except requests.exceptions.RequestException as e:
-        st.error(f"Erro ao consultar a API do LLaMA: {e}")
-        return "Erro ao consultar a API do LLaMA."
+        st.error(f"Erro ao consultar a API da Hugging Face: {e}")
+        return "Erro ao consultar a API da Hugging Face."
 
 # Streamlit UI
 st.title("📝 Carregue o Edital")
@@ -104,10 +102,9 @@ if uploaded_file and question:
         document_text = read_txt_md(uploaded_file)
 
     if document_text:
-        answer = query_llama_api(document_text, question)
-        st.write(answer)  # Exibe a resposta da API do LLaMA
+        answer = query_huggingface_api(document_text, question)
+        st.write(answer)  # Exibe a resposta da API da Hugging Face
 
 # Certifique-se de instalar as dependências necessárias
 # pip install pymupdf python-docx python-pptx mammoth requests
-
 
