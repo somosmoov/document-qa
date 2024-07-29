@@ -34,7 +34,6 @@ question = st.text_input(
         disabled=not uploaded_file,
     )
 
-'''
  if uploaded_file and question:
 
         # Process the uploaded file and question.
@@ -45,7 +44,7 @@ question = st.text_input(
                 "content": f"Here's a document: {document} \n\n---\n\n {question}",
             }
         ]
-
+'''
         # Generate an answer using the OpenAI API.
         stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
