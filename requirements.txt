@@ -21,3 +21,4 @@ pymupdf
 mammoth
 requests
 transformers
+cohere
