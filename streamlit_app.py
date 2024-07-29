@@ -29,8 +29,8 @@ if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Acesso": [logout_page],
-            "Ferramentas": [upload, search, history],
-            "Relatórios": [bugs, alerts],
+            "Ferramentas": [upload], #search, history],
+            #"Relatórios": [bugs, alerts],
             
         }
     )
