@@ -3,6 +3,7 @@ from docx import Document
 import fitz  # PyMuPDF
 from pptx import Presentation
 import mammoth
+import requests
 
 # Função para ler arquivos PDF
 def read_pdf(file):
@@ -59,6 +60,25 @@ def read_txt_md(file):
         st.error(f"Erro ao ler arquivo TXT/MD: {e}")
         return ""
 
+# Função para enviar o texto para a API do LLaMA
+def query_llama_api(document_text, question):
+    api_url = "https://api.llama.com/query"  # Substitua pelo URL real da API do LLaMA
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_API_KEY"  # Substitua pela sua chave da API
+    }
+    payload = {
+        "document": document_text,
+        "question": question
+    }
+    try:
+        response = requests.post(api_url, headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json().get("answer", "Nenhuma resposta encontrada.")
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro ao consultar a API do LLaMA: {e}")
+        return "Erro ao consultar a API do LLaMA."
+
 # Streamlit UI
 st.title("📝 Carregue o Edital")
 
@@ -84,15 +104,10 @@ if uploaded_file and question:
         document_text = read_txt_md(uploaded_file)
 
     if document_text:
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document_text} \n\n---\n\n {question}",
-            }
-        ]
-        
-        st.write(messages)  # Para fins de depuração, você pode exibir as mensagens no Streamlit
+        answer = query_llama_api(document_text, question)
+        st.write(answer)  # Exibe a resposta da API do LLaMA
 
 # Certifique-se de instalar as dependências necessárias
-# pip install pymupdf python-docx python-pptx mammoth
+# pip install pymupdf python-docx python-pptx mammoth requests
+
 
