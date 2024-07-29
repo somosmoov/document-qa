@@ -164,3 +164,21 @@ Considerações Finais:
 Segurança: Nunca exponha diretamente a chave da API em código-fonte público. Use variáveis de ambiente para armazenar chaves sensíveis.
 Tratamento de Erros: A função query_huggingface_api inclui tratamento de erros para lidar com possíveis falhas na comunicação com a API.
 Personalização: Ajuste a URL da API, os cabeçalhos e o payload conforme necessário para sua implementação específica.
+
+Explicação das Alterações:
+Inicialização do Cliente Cohere:
+
+Substitua "YOUR_COHERE_API_KEY" pela sua chave da API Cohere.
+Função query_cohere_api:
+
+Define o prompt a ser enviado à API do Cohere, que inclui o texto do documento e a pergunta.
+Usa a função generate do cliente Cohere para gerar uma resposta.
+Retorna a resposta gerada ou uma mensagem de erro se houver falha na solicitação.
+Integração da API no Fluxo Principal:
+
+Após ler e processar o arquivo, o código chama a função query_cohere_api passando o document_text e a question.
+A resposta da API é exibida no Streamlit usando st.write.
+Considerações Finais:
+Segurança: Nunca exponha diretamente a chave da API em código-fonte público. Use variáveis de ambiente para armazenar chaves sensíveis.
+Tratamento de Erros: A função query_cohere_api inclui tratamento de erros para lidar com possíveis falhas na comunicação com a API.
+Personalização: Ajuste o modelo, o prompt, os parâmetros de geração (como max_tokens e temperature) conforme necessário para sua implementação específica.
