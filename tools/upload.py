@@ -34,6 +34,7 @@ question = st.text_input(
         disabled=not uploaded_file,
     )
 
+'''
  if uploaded_file and question:
 
         # Process the uploaded file and question.
@@ -54,4 +55,4 @@ question = st.text_input(
 
         # Stream the response to the app using `st.write_stream`.
         st.write_stream(stream)
-
+'''
