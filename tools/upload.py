@@ -4,6 +4,7 @@ import fitz  # PyMuPDF
 from pptx import Presentation
 import mammoth
 import requests
+import cohere
 
 # Função para ler arquivos PDF
 def read_pdf(file):
@@ -77,6 +78,21 @@ def query_huggingface_api(document_text, question):
         st.error(f"Erro ao consultar a API da Hugging Face: {e}")
         return "Erro ao consultar a API da Hugging Face."
 
+# Função para enviar o texto para a API do Cohere
+def query_cohere_api(document_text, question):
+    prompt = f"{document_text}\n\nQuestion: {question}\nAnswer:"
+    try:
+        response = cohere_client.generate(
+            model='large',  # Substitua pelo modelo desejado
+            prompt=prompt,
+            max_tokens=100,
+            temperature=0.7
+        )
+        return response.generations[0].text.strip()
+    except cohere.CohereAPIError as e:
+        st.error(f"Erro ao consultar a API do Cohere: {e}")
+        return "Erro ao consultar a API do Cohere."
+
 # Streamlit UI
 st.title("📝 Carregue o Edital")
 
@@ -102,8 +118,14 @@ if uploaded_file and question:
         document_text = read_txt_md(uploaded_file)
 
     if document_text:
+        answer = query_cohere_api(document_text, question)
+        st.write(answer)  # Exibe a resposta da API do Cohere
+''' 
+    if document_text:
         answer = query_huggingface_api(document_text, question)
         st.write(answer)  # Exibe a resposta da API da Hugging Face
+'''        
+
 
 # Certifique-se de instalar as dependências necessárias
 # pip install pymupdf python-docx python-pptx mammoth requests
