@@ -19,3 +19,4 @@ python-docx
 python-pptx
 pymupdf
 mammoth
+requests
