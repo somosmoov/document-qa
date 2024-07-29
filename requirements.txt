@@ -5,7 +5,6 @@ transformers~=4.36.0.dev0
 langchain
 langgraph
 qdrant-client
-PyPDF2
 tiktoken
 langchain-text-splitters
 langchain_community
@@ -16,6 +15,6 @@ gradio_client==0.5.0
 pydantic==1.10.11
 uvicorn
 accelerate
-streamlit
 python-docx
 python-pptx
+pymupdf
