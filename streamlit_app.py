@@ -25,6 +25,22 @@ upload = st.Page("tools/upload.py", title="Carrega Edital", icon=":material/uplo
 search = st.Page("tools/search.py", title="Pesquisas", icon=":material/search:")#, default=True)
 history = st.Page("tools/history.py", title="Historico", icon=":material/history:")#, default=True)
 
+# Substitua 'SUA_API_KEY' pela sua chave da API do Cohere
+api_key = st.secrets["api_cohere"]
+
+# Endpoint da API do Cohere para verificação de saúde
+endpoint = 'https://api.cohere.com/healthcheck'
+
+# Enviar uma solicitação GET ao endpoint
+response = requests.get(endpoint, headers={'Authorization': f'Bearer {api_key}'})
+
+# Verificar o status da resposta
+if response.status_code == 200:
+    st.write("A API do Cohere está funcionando corretamente!")
+else:
+    st.write("A API do Cohere não está acessível. Verifique sua chave API e sua conexão à Internet.")
+
+
 if st.session_state.logged_in:
     pg = st.navigation(
         {
