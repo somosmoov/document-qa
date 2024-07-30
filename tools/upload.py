@@ -91,10 +91,21 @@ def query_cohere_api(document_text, question):
             max_tokens=100,
             temperature=0.7
         )
-        return response.generations[0].text.strip()
+        if response.generations and response.generations[0].text:
+            return response.generations[0].text.strip()
+        else:
+            st.error("Resposta vazia ou malformada recebida da API do Cohere.")
+            return "Erro: Resposta vazia ou malformada recebida da API do Cohere."
     except cohere.CohereAPIError as e:
-        st.error(f"Erro ao consultar a API do Cohere: {e}")
-        return "Erro ao consultar a API do Cohere."
+        st.error(f"Erro na API do Cohere: {e.message}")
+        return "Erro na API do Cohere."
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro de rede ao consultar a API do Cohere: {e}")
+        return "Erro de rede ao consultar a API do Cohere."
+    except Exception as e:
+        st.error(f"Ocorreu um erro inesperado: {e}")
+        return "Ocorreu um erro inesperado ao consultar a API do Cohere."
+
 
 # Streamlit UI
 st.title("📝 Carregue o Edital")
