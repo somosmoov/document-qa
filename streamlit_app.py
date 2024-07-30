@@ -41,6 +41,7 @@ if response.status_code == 200:
     st.write("A API do Cohere está funcionando corretamente!")
 else:
     st.write("A API do Cohere não está acessível. Verifique sua chave API e sua conexão à Internet.")
+    st.write(response.status_code)
 
 
 if st.session_state.logged_in:
