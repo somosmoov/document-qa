@@ -111,16 +111,16 @@ st.title("📝 Carregue o Edital")
 
 uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md"))
 
-question = st.text_input(
-    "Faça um questionamento",
-    placeholder="Pode fornecer um sumário?",
-    disabled=not uploaded_file,
-)
-
 # Dropdown para selecionar o modelo
 model = st.selectbox(
     "Selecione o modelo Cohere",
     ["xlarge", "large", "medium", "small"]  # Ajuste conforme os modelos disponíveis na sua conta Cohere
+)
+
+question = st.text_input(
+    "Faça um questionamento",
+    placeholder="Pode fornecer um sumário?",
+    disabled=not uploaded_file,
 )
 
 if uploaded_file and question:
