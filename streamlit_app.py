@@ -28,6 +28,7 @@ history = st.Page("tools/history.py", title="Historico", icon=":material/history
 
 # Substitua 'SUA_API_KEY' pela sua chave da API do Cohere
 api_key = st.secrets["api_cohere"]
+st.write(api_key)
 
 # Endpoint da API do Cohere para verificação de saúde
 endpoint = 'https://api.cohere.com/healthcheck'
