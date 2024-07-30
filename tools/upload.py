@@ -82,11 +82,11 @@ def query_huggingface_api(document_text, question):
         return "Erro ao consultar a API da Hugging Face."
 
 # Função para enviar o texto para a API do Cohere
-def query_cohere_api(document_text, question):
+def query_cohere_api(document_text, question, model):
     prompt = f"{document_text}\n\nQuestion: {question}\nAnswer:"
     try:
         response = cohere_client.generate(
-            model='large',  # Substitua pelo modelo desejado
+            model=model,  # Substitua pelo modelo desejado
             prompt=prompt,
             max_tokens=100,
             temperature=0.7
@@ -106,7 +106,6 @@ def query_cohere_api(document_text, question):
         st.error(f"Ocorreu um erro inesperado: {e}")
         return "Ocorreu um erro inesperado ao consultar a API do Cohere."
 
-
 # Streamlit UI
 st.title("📝 Carregue o Edital")
 
@@ -116,6 +115,12 @@ question = st.text_input(
     "Faça um questionamento",
     placeholder="Pode fornecer um sumário?",
     disabled=not uploaded_file,
+)
+
+# Dropdown para selecionar o modelo
+model = st.selectbox(
+    "Selecione o modelo Cohere",
+    ["xlarge", "large", "medium", "small"]  # Ajuste conforme os modelos disponíveis na sua conta Cohere
 )
 
 if uploaded_file and question:
@@ -132,7 +137,7 @@ if uploaded_file and question:
         document_text = read_txt_md(uploaded_file)
 
     if document_text:
-        answer = query_cohere_api(document_text, question)
+        answer = query_cohere_api(document_text, question, model)
         st.write(answer)  # Exibe a resposta da API do Cohere
 ''' 
     if document_text:
