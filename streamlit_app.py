@@ -1,4 +1,5 @@
 import streamlit as st
+import requests
 
 st.markdown("# Moov - Analisador de Editais 🎈")
 if "logged_in" not in st.session_state:
