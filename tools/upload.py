@@ -5,6 +5,7 @@ from pptx import Presentation
 import mammoth
 import requests
 import cohere
+from cohere import CohereAPIError
 
 # Inicialize o cliente Cohere
 cohere_client = cohere.Client(st.secrets["api_cohere"])  # Substitua pela sua chave da API Cohere
