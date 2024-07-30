@@ -35,7 +35,6 @@ endpoint = 'https://api.cohere.com/healthcheck'
 
 # Enviar uma solicitação GET ao endpoint
 response = requests.get(endpoint, headers={'Authorization': f'Bearer {api_key}'})
-st.write(headers)
 st.write(endpoint) 
 
 # Verificar o status da resposta
