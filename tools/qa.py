@@ -109,13 +109,13 @@ if uploaded_file and question:
     # Process the uploaded file and question.
     #document = uploaded_file.read().decode()
     document = trata_arquivo(uploaded_file)
-       messages = [
+    messages = [
         {
             "role": "user",
             "content": f"Here's a document: {document} \n\n---\n\n {question}",
         }
-        ]
-    st.write_stream(document)
+    ]
+    st.write(document)
     # Generate an answer using the OpenAI API.
     #stream = client.chat.completions.create(
     #    model="gpt-3.5-turbo",
