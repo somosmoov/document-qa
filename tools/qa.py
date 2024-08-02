@@ -5,6 +5,7 @@ import fitz  # PyMuPDF
 from pptx import Presentation
 import mammoth
 import requests
+import openpyxl
 
 # Função para ler arquivos PDF
 def read_pdf(file):
