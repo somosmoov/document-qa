@@ -62,6 +62,41 @@ def read_txt_md(file):
         st.error(f"Erro ao ler arquivo TXT/MD: {e}")
         return ""
 
+def read_xls(file_path):
+    try:
+        # Abrir o arquivo XLS
+        workbook = openpyxl.load_workbook(file_path)
+
+        # Acessar a primeira planilha do arquivo
+        worksheet = workbook.active
+
+        # Criar um dicionário para armazenar os dados
+        data = {}
+
+        # Iterar sobre as linhas da planilha
+        for row in worksheet.iter_rows():
+            # Iterar sobre as células da linha atual
+            for cell in row:
+                # Verificar se a célula contém dados
+                if cell.value:
+                    # Adicionar os dados ao dicionário
+                    data[cell.coordinate] = cell.value
+
+        # Fechar o arquivo
+        workbook.close()
+
+        return data
+
+    except FileNotFoundError:
+        #print(f"Arquivo '{file_path}' não encontrado.")
+        st.write(f"Arquivo '{file_path}' não encontrado.")
+        return None
+
+    except Exception as e:
+        #print(f"Erro ao ler o arquivo XLS: {e}")
+        sr.write(f"Erro ao ler o arquivo XLS: {e}")
+        return None
+
 # Função para converter o arquido carregado para texto
 def trata_arquivo (uploaded_file):
     # Process the uploaded file based on its type
@@ -73,18 +108,19 @@ def trata_arquivo (uploaded_file):
         document_text = read_doc(uploaded_file)
     elif uploaded_file.type in ["application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"]:
         document_text = read_ppt_pptx(uploaded_file)
+    elif uploaded_file.type in ["application/xls","application/xlsx", "application/xlsm","application/xltx","application/xltm"]:: 
+        document_text = read_xls(uploaded_file)
     else:
         document_text = read_txt_md(uploaded_file)
     return document_text
 
 # Streamlit UI
-st.title("📝 Carregue o Edital")
+st.title("📝 Carregue o Documento")
 # Show title and description.
 st.write(
-    "Carregue o edital abaixo e faça uma pergunta que o GPT irá responder! "
+    "Carregue o documento abaixo e faça uma pergunta que o GPT irá responder! "
     #"To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
 )
-
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
@@ -96,7 +132,7 @@ openai_api_key = st.secrets["api_openai"]
 client = OpenAI(api_key=openai_api_key)
 
 # Let the user upload a file via `st.file_uploader`.
-uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md"))
+uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md","xls","xlsx","xlsm","xltx","xltm"))
 
 # Ask the user for a question via `st.text_area`.
 question = st.text_input(
@@ -116,13 +152,13 @@ if uploaded_file and question:
             "content": f"Here's a document: {document} \n\n---\n\n {question}",
         }
     ]
-    #st.write(document)
+    st.write(document)
     # Generate an answer using the OpenAI API.
-    stream = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages,
-        stream=True,
-   )
+    #stream = client.chat.completions.create(
+    #    model="gpt-3.5-turbo",
+    #    messages=messages,
+    #    stream=True,
+   #)
 
     # Stream the response to the app using `st.write_stream`.
     st.write_stream(stream)
