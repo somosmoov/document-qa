@@ -54,10 +54,18 @@ def read_ppt_pptx(file):
         st.error(f"Erro ao ler arquivo PPT/PPTX: {e}")
         return ""
 
-# Função para ler arquivos TXT e MD
-def read_txt_md(file):
+# Função para ler arquivos TXT e MD com detecção automática de codificação
+def read_txt_md(file, encoding="utf-8"):
     try:
-        return file.read().decode()
+        # Detectar a codificação do arquivo
+        detected_encoding = chardet.detect(file.read())["encoding"]
+
+        # Reabrir o arquivo com a codificação detectada
+        file.seek(0)
+        text = file.read().decode(encoding or detected_encoding)
+
+        return text
+
     except Exception as e:
         st.error(f"Erro ao ler arquivo TXT/MD: {e}")
         return ""
@@ -99,6 +107,7 @@ def read_xls(file_path):
 
 # Função para converter o arquido carregado para texto
 def trata_arquivo (uploaded_file):
+    #st.write("Tipo arquivo carregado",uploaded_file.type)
     # Process the uploaded file based on its type
     if uploaded_file.type == "application/pdf":
         document_text = read_pdf(uploaded_file)
@@ -108,7 +117,7 @@ def trata_arquivo (uploaded_file):
         document_text = read_doc(uploaded_file)
     elif uploaded_file.type in ["application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation"]:
         document_text = read_ppt_pptx(uploaded_file)
-    elif uploaded_file.type in ["application/xls","application/xlsx", "application/xlsm","application/xltx","application/xltm"]:: 
+    elif uploaded_file.type in ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/xls","application/xlsx", "application/xlsm","application/xltx","application/xltm"]: 
         document_text = read_xls(uploaded_file)
     else:
         document_text = read_txt_md(uploaded_file)
@@ -152,13 +161,13 @@ if uploaded_file and question:
             "content": f"Here's a document: {document} \n\n---\n\n {question}",
         }
     ]
-    st.write(document)
+    #st.write(document)
     # Generate an answer using the OpenAI API.
-    #stream = client.chat.completions.create(
-    #    model="gpt-3.5-turbo",
-    #    messages=messages,
-    #    stream=True,
-   #)
+    stream = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        stream=True,
+   )
 
     # Stream the response to the app using `st.write_stream`.
     st.write_stream(stream)
