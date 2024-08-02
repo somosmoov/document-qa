@@ -116,14 +116,14 @@ if uploaded_file and question:
             "content": f"Here's a document: {document} \n\n---\n\n {question}",
         }
     ]
-    st.write(document)
+    #st.write(document)
     # Generate an answer using the OpenAI API.
-    #stream = client.chat.completions.create(
-    #    model="gpt-3.5-turbo",
-    #    messages=messages,
-    #    stream=True,
-    #)
+    stream = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        stream=True,
+   )
 
     # Stream the response to the app using `st.write_stream`.
-    #st.write_stream(stream)
+    st.write_stream(stream)
 
