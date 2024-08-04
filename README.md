@@ -17,5 +17,5 @@ A simple Streamlit app that answers questions about an uploaded document via Ope
    ```
    $ streamlit run main_page.py
    $ streamlit run streamlit_app.py
-
+   $ python -m streamlit run streamlit_app.py --server.port 8000 --server.address 0.0.0.0
    ```
