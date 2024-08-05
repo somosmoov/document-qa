@@ -123,13 +123,30 @@ def trata_arquivo (uploaded_file):
         document_text = read_txt_md(uploaded_file)
     return document_text
 
+# Função para limpar o conteúdo da variável "question"
+def clear_question():
+    try:
+        del question
+    except NameError:
+        pass
+
+# Criar uma caixa de entrada de texto
+def get_question():
+    clear_question()
+    return st.text_input(
+        "Faça um questionamento",
+        placeholder="Por exemplo: Pode fornecer um sumário?",
+        disabled=not uploaded_file,
+    )
+
 # Streamlit UI
-st.title("📝 Carregue o Documento")
+#st.title("📝 Carregue o Documento")
+st.markdown("## 📝 Carregue o Documento")
 # Show title and description.
-st.write(
-    "Carregue o documento abaixo e faça uma pergunta que o GPT irá responder! "
+#st.write(
+#    "Carregue o documento abaixo e faça uma pergunta que o GPT irá responder! "
     #"To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-)
+#)
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
@@ -141,12 +158,15 @@ openai_api_key = st.secrets["api_openai"]
 client = OpenAI(api_key=openai_api_key)
 
 # Let the user upload a file via `st.file_uploader`.
-uploaded_file = st.file_uploader("Carregue o arquivo com o edital", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md","xls","xlsx","xlsm","xltx","xltm"))
+uploaded_file = st.file_uploader("Carregue o arquivo com o documento a ser analisado!", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md","xls","xlsx","xlsm","xltx","xltm"))
+
+# Chamar a função para obter a pergunta
+# question = get_question()
 
 # Ask the user for a question via `st.text_area`.
 question = st.text_input(
     "Faça um questionamento",
-    placeholder="Pode fornecer um sumário?",
+    placeholder="Por exemplo: Pode fornecer um sumário?",
     disabled=not uploaded_file,
 )
 
@@ -167,7 +187,7 @@ if uploaded_file and question:
         model="gpt-3.5-turbo",
         messages=messages,
         stream=True,
-   )
+    )
 
     # Stream the response to the app using `st.write_stream`.
     st.write_stream(stream)
