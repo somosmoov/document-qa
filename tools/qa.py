@@ -184,7 +184,8 @@ if uploaded_file and question:
     #st.write(document)
     # Generate an answer using the OpenAI API.
     stream = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        #model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=messages,
         stream=True,
     )
