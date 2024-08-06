@@ -163,11 +163,11 @@ client = SecretClient(vault_url=key_vault_url, credential=credential)
 # Acesse o segredo
 secret_name = "OpenAI-API-Key"
 retrieved_secret = client.get_secret(secret_name)
-st.write("A chave da API da OpenAI é:", retrieved_secret.value)
-st.write("VALOR recuperado:", retrieved_secret)
+#st.write("A chave da API da OpenAI é:", retrieved_secret.value)
+#st.write("VALOR recuperado:", retrieved_secret)
 
 # Create an OpenAI client.
-client = OpenAI(api_key=retrieved_secret)
+client = OpenAI(api_key=retrieved_secret.value)
 
 # Let the user upload a file via `st.file_uploader`.
 uploaded_file = st.file_uploader("Carregue o arquivo com o documento a ser analisado!", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md","xls","xlsx","xlsm","xltx","xltm"))
