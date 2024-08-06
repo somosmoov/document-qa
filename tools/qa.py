@@ -6,6 +6,8 @@ from pptx import Presentation
 import mammoth
 import requests
 import openpyxl
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
 # Função para ler arquivos PDF
 def read_pdf(file):
@@ -142,20 +144,27 @@ def get_question():
 # Streamlit UI
 #st.title("📝 Carregue o Documento")
 st.markdown("## 📝 Carregue o Documento")
-# Show title and description.
-#st.write(
-#    "Carregue o documento abaixo e faça uma pergunta que o GPT irá responder! "
-    #"To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-#)
 
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 #openai_api_key = st.text_input("OpenAI API Key", type="password")
-openai_api_key = st.secrets["api_openai"]
+#openai_api_key = st.secrets["api_openai"]
+
+# Defina a URL do seu Key Vault
+key_vault_url = "https://KeyVaultAvaliacao.vault.azure.net/"
+
+# Crie um cliente para acessar o Key Vault
+credential = DefaultAzureCredential()
+client = SecretClient(vault_url=key_vault_url, credential=credential)
+
+# Acesse o segredo
+secret_name = "OpenAI-API-Key"
+retrieved_secret = client.get_secret(secret_name)
+st.write("A chave da API da OpenAI é:", retrieved_secret.value)
 
 # Create an OpenAI client.
-client = OpenAI(api_key=openai_api_key)
+client = OpenAI(api_key=retrieved_secret)
 
 # Let the user upload a file via `st.file_uploader`.
 uploaded_file = st.file_uploader("Carregue o arquivo com o documento a ser analisado!", type=("pdf", "docx", "doc", "ppt", "pptx", "txt", "md","xls","xlsx","xlsm","xltx","xltm"))
