@@ -9,6 +9,8 @@ import openpyxl
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
+KEY_VAULT_URL = "https://keyvaultdesen.vault.azure.net/"
+
 # Função para ler arquivos PDF
 def read_pdf(file):
     try:
@@ -152,7 +154,7 @@ st.markdown("## 📝 Carregue o Documento")
 #openai_api_key = st.secrets["api_openai"]
 
 # Defina a URL do seu Key Vault
-key_vault_url = "https://KeyVaultAvaliacao.vault.azure.net/"
+key_vault_url = KEY_VAULT_URL
 
 # Crie um cliente para acessar o Key Vault
 credential = DefaultAzureCredential()
