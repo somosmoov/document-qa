@@ -164,6 +164,7 @@ client = SecretClient(vault_url=key_vault_url, credential=credential)
 secret_name = "OpenAI-API-Key"
 retrieved_secret = client.get_secret(secret_name)
 st.write("A chave da API da OpenAI é:", retrieved_secret.value)
+st.write("VALOR recuperado:", retrieved_secret)
 
 # Create an OpenAI client.
 client = OpenAI(api_key=retrieved_secret)
