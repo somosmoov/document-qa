@@ -25,7 +25,7 @@ alerts = st.Page("reports/alerts.py", title="Alertas", icon=":material/notificat
 upload = st.Page("tools/upload.py", title="Carrega Edital", icon=":material/upload:")#, default=True)
 search = st.Page("tools/search.py", title="Pesquisas", icon=":material/search:")#, default=True)
 history = st.Page("tools/history.py", title="Historico", icon=":material/history:")#, default=True)
-qa = st.Page("tools/qa.py", title="Carrega Edital", icon=":material/upload:", default=True)
+qa = st.Page("tools/qa.py", title="Carrega Documento", icon=":material/upload:", default=True)
 
 if st.session_state.logged_in:  
     pg = st.navigation(
