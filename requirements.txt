@@ -6,3 +6,5 @@ pymupdf
 mammoth
 requests
 openpyxl
+azure-identity 
+azure-keyvault-secrets
