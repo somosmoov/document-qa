@@ -182,37 +182,51 @@ for uploaded_file in uploaded_files:
     st.write("Tipo de conteúdo:", uploaded_file.type)
     st.write("Tamanho do arquivo:", uploaded_file.size, "bytes")
     document = trata_arquivo(uploaded_file)
-    #
+    # Criar embeddings para o arquivo
+    chunk_size = 1024
+    embeddings = []
+    with document.open() as file:
+        while True:
+            chunk = file.read(chunk_size)
+            if not chunk:
+                break
+    response = openai.Embedding.create(input=chunk)
+    embedding = response["data"]["embedding"]
+    qdrant_client.add(embedding)
+    embeddings.append(embedding)
+    # Adicionar os embeddings do arquivo à lista de todos os embeddings
+    all_embeddings.extend(embeddings)
 
-# Chamar a função para obter a pergunta
-# question = get_question()
-
-# Ask the user for a question via `st.text_area`.
+# Obter a pergunta do usuário após o processamento de todos os arquivos
 question = st.text_input(
-    "Faça um questionamento",
+    "Faça um questionamento após a análise de todos os documentos",
     placeholder="Por exemplo: Pode fornecer um sumário?",
-    disabled=not uploaded_file,
 )
 
-if uploaded_file and question:
+# Obter a pergunta do usuário após o processamento de todos os arquivos
+question = st.text_input(
+    "Faça um questionamento após a análise de todos os documentos",
+    placeholder="Por exemplo: Pode fornecer um sumário?",
+)
 
-    # Process the uploaded file and question.
-    #document = uploaded_file.read().decode()
-    document = trata_arquivo(uploaded_file)
-    messages = [
-        {
-            "role": "user",
-            "content": f"Here's a document: {document} \n\n---\n\n {question}",
-        }
-    ]
-    #st.write(document)
-    # Generate an answer using the OpenAI API.
-    stream = client.chat.completions.create(
-        #model="gpt-3.5-turbo",
-        model="gpt-4o-mini",
-        messages=messages,
-        stream=True,
-    )
+if question:
+    # Encontre o embedding mais próximo à pergunta no Qdrant
+    closest_embedding = qdrant_client.search(question, in_memory=True)[0]
 
-    # Stream the response to the app using `st.write_stream`.
-    st.write_stream(stream)
+    # Recupere o índice do embedding mais próximo
+    closest_index = closest_embedding["id"]
+
+    # Recupere o texto original do índice mais próximo
+    original_text = all_embeddings[closest_index]
+
+    # Gere uma resposta à pergunta usando a API da OpenAI
+    completion = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Pergunta: {question}\nContexto: {original_text}\nResposta:",
+        max_tokens: 50,
+        n: 1,
+        stop: ["\n"],
+     )
+
+     # Exibir a resposta na interface Streamlit
+     st.write(f"Pergunta: {question}\nResposta: {completion.choices[0]['text']}")
