@@ -138,7 +138,7 @@ def clear_question():
 def get_question():
     clear_question()
     return st.text_input(
-        "Faça um questionamento",
+        "Agora é só perguntar que a IA responde!",
         placeholder="Por exemplo: Pode fornecer um sumário?",
         disabled=not uploaded_file,
     )
