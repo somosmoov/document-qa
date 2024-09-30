@@ -5,7 +5,7 @@ import fitz  # PyMuPDF
 from pptx import Presentation
 import mammoth
 import requests
-import openpyxl
+import openpyxl 
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
