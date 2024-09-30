@@ -177,7 +177,7 @@ uploaded_file = st.file_uploader("Carregue o arquivo com o documento a ser anali
 
 # Ask the user for a question via `st.text_area`.
 question = st.text_input(
-    "Faça um questionamento",
+    "Pergunte que a IA responde!",
     placeholder="Por exemplo: Pode fornecer um sumário?",
     disabled=not uploaded_file,
 )
