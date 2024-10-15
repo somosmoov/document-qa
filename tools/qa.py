@@ -10,12 +10,15 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from langchain_community.document_loaders import PDFMinerLoader
 from langchain_community.document_loaders import PyMuPDFLoader
+import pymupdf4llm
 
 KEY_VAULT_URL = "https://keyvaultdesen.vault.azure.net/"
 
 # Função para ler arquivos PDF
 def read_pdf(file):
     try:
+        md_text = pymupdf4llm.to_markdown(file)
+        return md_text
         '''
         document = fitz.open(stream=file.read(), filetype="pdf")
         text = ""
@@ -23,10 +26,10 @@ def read_pdf(file):
             text += page.get_text()
         return text
         '''
-        #loader = PDFMinerLoader(file)
+        '''#loader = PDFMinerLoader(file)
         loader = PyMuPDFLoader(file)
         docs = loader.load()
-        return docs
+        return docs '''
     except Exception as e:
         st.error(f"Erro ao ler arquivo PDF: {e}")
         return ""
