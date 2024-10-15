@@ -8,7 +8,7 @@ import requests
 import openpyxl 
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
-from langchain_community.document_loaders import PDFMinerLoade
+from langchain_community.document_loaders import PDFMinerLoader
 
 KEY_VAULT_URL = "https://keyvaultdesen.vault.azure.net/"
 
