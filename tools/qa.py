@@ -18,7 +18,7 @@ KEY_VAULT_URL = "https://keyvaultdesen.vault.azure.net/"
 def read_pdf(file):
     try:
         md_text = pymupdf4llm.to_markdown(file)
-        return md_text
+        return md_text 
         '''
         document = fitz.open(stream=file.read(), filetype="pdf")
         text = ""
