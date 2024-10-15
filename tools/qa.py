@@ -11,6 +11,8 @@ from azure.keyvault.secrets import SecretClient
 from langchain_community.document_loaders import PDFMinerLoader
 from langchain_community.document_loaders import PyMuPDFLoader
 import pymupdf4llm
+import chardet
+
 
 KEY_VAULT_URL = "https://keyvaultdesen.vault.azure.net/"
 
