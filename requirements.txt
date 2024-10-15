@@ -8,3 +8,4 @@ requests
 openpyxl
 azure-identity 
 azure-keyvault-secrets
+langchain_community
